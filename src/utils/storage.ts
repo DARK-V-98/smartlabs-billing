@@ -24,6 +24,14 @@ export function saveInstituteInfo(info: InstituteInfo): void {
   }
 }
 
+export function getReceiptCounter(): number {
+  return parseInt(localStorage.getItem(STORAGE_KEY_COUNTER) || '1041', 10);
+}
+
+export function setReceiptCounter(value: number): void {
+  localStorage.setItem(STORAGE_KEY_COUNTER, value.toString());
+}
+
 export function getNextReceiptNumber(): string {
   try {
     const current = parseInt(localStorage.getItem(STORAGE_KEY_COUNTER) || '1041', 10);

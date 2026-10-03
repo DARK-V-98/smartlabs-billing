@@ -1,4 +1,4 @@
-import html2canvas from 'html2canvas';
+import { toPng } from 'html-to-image';
 import { ReceiptData } from '../types/receipt';
 import { saveReceipt, saveReceipts, getReceipts } from './storage';
 
@@ -10,14 +10,13 @@ export async function downloadReceiptAsImage(
   filename: string
 ): Promise<boolean> {
   try {
-    const canvas = await html2canvas(element, {
-      scale: 2.5, // High DPI for crisp printing
-      useCORS: true,
+    // html-to-image renders through the browser, so modern colors (oklch from Tailwind v4) work
+    const dataUrl = await toPng(element, {
+      pixelRatio: 3,
       backgroundColor: '#ffffff',
-      logging: false
+      cacheBust: true,
+      skipFonts: true
     });
-
-    const dataUrl = canvas.toDataURL('image/png');
     const link = document.createElement('a');
     link.download = `${filename}.png`;
     link.href = dataUrl;

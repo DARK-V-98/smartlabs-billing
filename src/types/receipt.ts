@@ -29,6 +29,8 @@ export interface InstituteInfo {
   website: string;
   registrationNumber: string;
   cashierName: string;
+  currentUserName?: string;
+  adminName?: string;
   logoUrl?: string;
   terms: string[];
 }
@@ -71,6 +73,8 @@ export const DEFAULT_INSTITUTE_INFO: InstituteInfo = {
   website: 'www.smartlabs.lk',
   registrationNumber: 'PV 00294183',
   cashierName: 'SmartLabs Reception Counter 01',
+  currentUserName: '',
+  adminName: '',
   terms: [
     'Fees once paid are non-refundable and non-transferable under any circumstances.',
     'Please present this official receipt for class attendance, lab access, and course materials.',
@@ -104,14 +108,14 @@ export const QUICK_SESSION_PRESETS: {
     category: 'Physical Class',
     label: 'Physical Class',
     defaultTitle: 'Physical Class - In-Person Lab & Classroom Lectures',
-    typicalFee: 12000,
+    typicalFee: 50000,
     badgeColor: 'bg-sky-50 text-sky-700 border-sky-200'
   },
   {
     category: 'Group Online Class',
     label: 'Group Online Class',
     defaultTitle: 'Interactive Live Online Group Sessions',
-    typicalFee: 8500,
+    typicalFee: 35000,
     badgeColor: 'bg-violet-50 text-violet-700 border-violet-200'
   },
   {
@@ -125,7 +129,7 @@ export const QUICK_SESSION_PRESETS: {
     category: 'Admission Fee',
     label: 'Admission Fee',
     defaultTitle: 'Annual Institute Registration & Student Kit',
-    typicalFee: 2500,
+    typicalFee: 5000,
     badgeColor: 'bg-rose-50 text-rose-700 border-rose-200'
   }
 ];

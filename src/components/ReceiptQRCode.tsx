@@ -15,7 +15,7 @@ export const ReceiptQRCode: React.FC<Props> = ({ value, size = 80, className = '
     QRCode.toDataURL(
       value,
       {
-        width: size * 2,
+        width: size * 4,
         margin: 1,
         color: {
           dark: '#0f172a',

@@ -56,7 +56,7 @@ export const ReceiptForm: React.FC<ReceiptFormProps> = ({
 }) => {
   const [selectedQuickCategory, setSelectedQuickCategory] = useState<SessionCategory>('Physical Class');
   const [customCourseInput, setCustomCourseInput] = useState<string>('');
-  const [customFeeInput, setCustomFeeInput] = useState<number>(12000);
+  const [customFeeInput, setCustomFeeInput] = useState<number>(50000);
 
   // Helper to update receipt fields
   const updateField = <K extends keyof ReceiptData>(field: K, value: ReceiptData[K]) => {
@@ -209,15 +209,15 @@ export const ReceiptForm: React.FC<ReceiptFormProps> = ({
   };
 
   return (
-    <div className="bg-slate-850 border border-slate-700/80 rounded-xl p-5 space-y-6 shadow-xl text-slate-200">
+    <div className="bg-white border border-slate-200 rounded-xl p-5 space-y-6 shadow-xl text-slate-900">
       {/* Top Banner & Quick Controls */}
-      <div className="flex flex-wrap items-center justify-between gap-3 border-b border-slate-700/70 pb-4">
+      <div className="flex flex-wrap items-center justify-between gap-3 border-b border-slate-200 pb-4">
         <div>
-          <h2 className="text-lg font-bold text-white flex items-center gap-2">
-            <FileText className="w-5 h-5 text-sky-400" />
+          <h2 className="text-lg font-bold text-slate-900 flex items-center gap-2">
+            <FileText className="w-5 h-5 text-sky-600" />
             Billing & Receipt Generator
           </h2>
-          <p className="text-xs text-slate-400">
+          <p className="text-xs text-slate-500">
             Create standard A5 receipts with Smartlabs (Pvt) Ltd branding & student tracking
           </p>
         </div>
@@ -226,7 +226,7 @@ export const ReceiptForm: React.FC<ReceiptFormProps> = ({
           <button
             type="button"
             onClick={onReset}
-            className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-slate-300 hover:text-white bg-slate-800 hover:bg-slate-700 border border-slate-700 rounded-lg transition-colors cursor-pointer"
+            className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-slate-700 hover:text-slate-900 bg-slate-100 hover:bg-slate-200 border border-slate-200 rounded-lg transition-colors cursor-pointer"
           >
             <RotateCcw className="w-3.5 h-3.5" />
             New Receipt
@@ -244,30 +244,30 @@ export const ReceiptForm: React.FC<ReceiptFormProps> = ({
       </div>
 
       {savedSuccess && (
-        <div className="bg-emerald-950/80 border border-emerald-500/40 text-emerald-200 px-3.5 py-2 rounded-lg text-xs flex items-center gap-2 animate-in fade-in">
-          <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
+        <div className="bg-emerald-50/80 border border-emerald-300 text-emerald-700 px-3.5 py-2 rounded-lg text-xs flex items-center gap-2 animate-in fade-in">
+          <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
           <span>Receipt successfully recorded in counter ledger! Ready for print or sharing.</span>
         </div>
       )}
 
       {/* METADATA BAR: RECEIPT NUMBER, TYPE, DATE */}
-      <div className="grid grid-cols-1 sm:grid-cols-4 gap-3 bg-slate-900/60 p-3.5 rounded-lg border border-slate-700/50">
+      <div className="grid grid-cols-1 sm:grid-cols-4 gap-3 bg-white/60 p-3.5 rounded-lg border border-slate-200">
         <div>
-          <label className="text-[11px] font-medium text-slate-400 block mb-1">Receipt Number</label>
+          <label className="text-[11px] font-medium text-slate-500 block mb-1">Receipt Number</label>
           <input
             type="text"
             value={receipt.receiptNumber}
             onChange={e => updateField('receiptNumber', e.target.value)}
-            className="w-full bg-slate-950 border border-slate-700 rounded px-2.5 py-1.5 text-xs font-mono font-bold text-sky-400 focus:outline-none focus:border-sky-500"
+            className="w-full bg-white border border-slate-200 rounded px-2.5 py-1.5 text-xs font-mono font-bold text-sky-600 focus:outline-none focus:border-sky-300"
           />
         </div>
 
         <div>
-          <label className="text-[11px] font-medium text-slate-400 block mb-1">Document Type</label>
+          <label className="text-[11px] font-medium text-slate-500 block mb-1">Document Type</label>
           <select
             value={receipt.type}
             onChange={e => updateField('type', e.target.value as ReceiptData['type'])}
-            className="w-full bg-slate-950 border border-slate-700 rounded px-2.5 py-1.5 text-xs text-white focus:outline-none focus:border-sky-500"
+            className="w-full bg-white border border-slate-200 rounded px-2.5 py-1.5 text-xs text-slate-900 focus:outline-none focus:border-sky-300"
           >
             <option value="Receipt">Payment Receipt</option>
             <option value="Invoice">Student Invoice</option>
@@ -276,55 +276,55 @@ export const ReceiptForm: React.FC<ReceiptFormProps> = ({
         </div>
 
         <div>
-          <label className="text-[11px] font-medium text-slate-400 block mb-1 flex items-center gap-1">
-            <Calendar className="w-3 h-3 text-slate-400" />
+          <label className="text-[11px] font-medium text-slate-500 block mb-1 flex items-center gap-1">
+            <Calendar className="w-3 h-3 text-slate-500" />
             Issue Date
           </label>
           <input
             type="date"
             value={receipt.issueDate}
             onChange={e => updateField('issueDate', e.target.value)}
-            className="w-full bg-slate-950 border border-slate-700 rounded px-2.5 py-1.5 text-xs text-white focus:outline-none focus:border-sky-500"
+            className="w-full bg-white border border-slate-200 rounded px-2.5 py-1.5 text-xs text-slate-900 focus:outline-none focus:border-sky-300"
           />
         </div>
 
         <div>
-          <label className="text-[11px] font-medium text-slate-400 block mb-1 flex items-center gap-1">
-            <Clock className="w-3 h-3 text-slate-400" />
+          <label className="text-[11px] font-medium text-slate-500 block mb-1 flex items-center gap-1">
+            <Clock className="w-3 h-3 text-slate-500" />
             Time
           </label>
           <input
             type="time"
             value={receipt.issueTime}
             onChange={e => updateField('issueTime', e.target.value)}
-            className="w-full bg-slate-950 border border-slate-700 rounded px-2.5 py-1.5 text-xs text-white focus:outline-none focus:border-sky-500"
+            className="w-full bg-white border border-slate-200 rounded px-2.5 py-1.5 text-xs text-slate-900 focus:outline-none focus:border-sky-300"
           />
         </div>
       </div>
 
       {/* STUDENT INFORMATION */}
       <div className="space-y-3">
-        <h3 className="text-xs font-bold uppercase tracking-wider text-slate-400 flex items-center gap-1.5">
-          <User className="w-3.5 h-3.5 text-sky-400" />
+        <h3 className="text-xs font-bold uppercase tracking-wider text-slate-500 flex items-center gap-1.5">
+          <User className="w-3.5 h-3.5 text-sky-600" />
           Student Information
         </h3>
 
         <div className="grid grid-cols-1 sm:grid-cols-12 gap-3">
           <div className="sm:col-span-5">
-            <label className="text-[11px] font-medium text-slate-300 block mb-1">
-              Student Full Name <span className="text-rose-400">*</span>
+            <label className="text-[11px] font-medium text-slate-700 block mb-1">
+              Student Full Name <span className="text-rose-600">*</span>
             </label>
             <input
               type="text"
               placeholder="e.g. Kasun Dananjaya Perera"
               value={receipt.studentName}
               onChange={e => updateField('studentName', e.target.value)}
-              className="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-sky-500 font-medium"
+              className="w-full bg-white border border-slate-200 rounded-lg px-3 py-2 text-xs text-slate-900 placeholder-slate-400 focus:outline-none focus:border-sky-300 font-medium"
             />
           </div>
 
           <div className="sm:col-span-3">
-            <label className="text-[11px] font-medium text-slate-300 block mb-1">
+            <label className="text-[11px] font-medium text-slate-700 block mb-1">
               Student ID / Reg No
             </label>
             <div className="flex gap-1.5">
@@ -333,7 +333,7 @@ export const ReceiptForm: React.FC<ReceiptFormProps> = ({
                 placeholder="SL-STD-2026-..."
                 value={receipt.studentId}
                 onChange={e => updateField('studentId', e.target.value)}
-                className="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-xs font-mono text-white placeholder-slate-500 focus:outline-none focus:border-sky-500"
+                className="w-full bg-white border border-slate-200 rounded-lg px-3 py-2 text-xs font-mono text-slate-900 placeholder-slate-400 focus:outline-none focus:border-sky-300"
               />
               <button
                 type="button"
@@ -342,7 +342,7 @@ export const ReceiptForm: React.FC<ReceiptFormProps> = ({
                   const id = `SL-STD-${new Date().getFullYear()}-${Math.floor(100 + Math.random() * 900)}`;
                   updateField('studentId', id);
                 }}
-                className="px-2 bg-slate-800 hover:bg-slate-700 border border-slate-700 rounded-lg text-[10px] text-slate-300"
+                className="px-2 bg-slate-100 hover:bg-slate-200 border border-slate-200 rounded-lg text-[10px] text-slate-700"
               >
                 Auto
               </button>
@@ -350,20 +350,20 @@ export const ReceiptForm: React.FC<ReceiptFormProps> = ({
           </div>
 
           <div className="sm:col-span-4">
-            <label className="text-[11px] font-medium text-slate-300 block mb-1">
-              Contact / WhatsApp No <span className="text-rose-400">*</span>
+            <label className="text-[11px] font-medium text-slate-700 block mb-1">
+              Contact / WhatsApp No <span className="text-rose-600">*</span>
             </label>
             <input
               type="text"
               placeholder="07x xxx xxxx"
               value={receipt.studentPhone}
               onChange={e => updateField('studentPhone', e.target.value)}
-              className="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-xs font-mono text-white placeholder-slate-500 focus:outline-none focus:border-sky-500"
+              className="w-full bg-white border border-slate-200 rounded-lg px-3 py-2 text-xs font-mono text-slate-900 placeholder-slate-400 focus:outline-none focus:border-sky-300"
             />
           </div>
 
           <div className="sm:col-span-6">
-            <label className="text-[11px] font-medium text-slate-300 block mb-1">
+            <label className="text-[11px] font-medium text-slate-700 block mb-1">
               Batch / Intake / Schedule
             </label>
             <input
@@ -371,12 +371,12 @@ export const ReceiptForm: React.FC<ReceiptFormProps> = ({
               placeholder="e.g. Batch 2026-A (Weekend) or Sunday 9AM"
               value={receipt.batch}
               onChange={e => updateField('batch', e.target.value)}
-              className="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-sky-500"
+              className="w-full bg-white border border-slate-200 rounded-lg px-3 py-2 text-xs text-slate-900 placeholder-slate-400 focus:outline-none focus:border-sky-300"
             />
           </div>
 
           <div className="sm:col-span-6">
-            <label className="text-[11px] font-medium text-slate-300 block mb-1">
+            <label className="text-[11px] font-medium text-slate-700 block mb-1">
               Student Email (Optional)
             </label>
             <input
@@ -384,17 +384,17 @@ export const ReceiptForm: React.FC<ReceiptFormProps> = ({
               placeholder="student@gmail.com"
               value={receipt.studentEmail || ''}
               onChange={e => updateField('studentEmail', e.target.value)}
-              className="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-sky-500"
+              className="w-full bg-white border border-slate-200 rounded-lg px-3 py-2 text-xs text-slate-900 placeholder-slate-400 focus:outline-none focus:border-sky-300"
             />
           </div>
         </div>
       </div>
 
       {/* QUICK PRESET CHIPS (Requested by user: recorded sessions, individual session, physical class, etc.) */}
-      <div className="space-y-3 pt-2 border-t border-slate-800">
+      <div className="space-y-3 pt-2 border-t border-slate-200">
         <div className="flex items-center justify-between">
-          <h3 className="text-xs font-bold uppercase tracking-wider text-slate-400 flex items-center gap-1.5">
-            <BookOpen className="w-3.5 h-3.5 text-sky-400" />
+          <h3 className="text-xs font-bold uppercase tracking-wider text-slate-500 flex items-center gap-1.5">
+            <BookOpen className="w-3.5 h-3.5 text-sky-600" />
             Quick Add Session / Service Presets
           </h3>
           <span className="text-[11px] text-slate-500">1-Click to add item</span>
@@ -406,12 +406,12 @@ export const ReceiptForm: React.FC<ReceiptFormProps> = ({
               key={preset.category}
               type="button"
               onClick={() => handleAddPresetItem(preset)}
-              className="flex flex-col text-left p-2.5 rounded-lg bg-slate-900 hover:bg-slate-800 border border-slate-700/80 hover:border-sky-500/60 transition-all group cursor-pointer"
+              className="flex flex-col text-left p-2.5 rounded-lg bg-white hover:bg-slate-100 border border-slate-200 hover:border-sky-300 transition-all group cursor-pointer"
             >
-              <span className="text-[11px] font-bold text-sky-300 group-hover:text-sky-200">
+              <span className="text-[11px] font-bold text-sky-700 group-hover:text-sky-700">
                 + {preset.label}
               </span>
-              <span className="text-[10px] text-slate-400 mt-1 font-mono">
+              <span className="text-[10px] text-slate-500 mt-1 font-mono">
                 LKR {formatCurrency(preset.typicalFee)}
               </span>
             </button>
@@ -419,8 +419,8 @@ export const ReceiptForm: React.FC<ReceiptFormProps> = ({
         </div>
 
         {/* CUSTOM COURSE ENTRY */}
-        <div className="p-3 bg-slate-900/80 border border-slate-700 rounded-lg space-y-2">
-          <span className="text-[11px] font-semibold text-slate-300 block">
+        <div className="p-3 bg-white/80 border border-slate-200 rounded-lg space-y-2">
+          <span className="text-[11px] font-semibold text-slate-700 block">
             Or Enter Specific Course & Fee:
           </span>
           <div className="grid grid-cols-1 sm:grid-cols-12 gap-2">
@@ -428,7 +428,7 @@ export const ReceiptForm: React.FC<ReceiptFormProps> = ({
               <select
                 value={selectedQuickCategory}
                 onChange={e => setSelectedQuickCategory(e.target.value as SessionCategory)}
-                className="w-full bg-slate-950 border border-slate-700 rounded px-2.5 py-1.5 text-xs text-white"
+                className="w-full bg-white border border-slate-200 rounded px-2.5 py-1.5 text-xs text-slate-900"
               >
                 <option value="Physical Class">Physical Class</option>
                 <option value="Recorded Sessions">Recorded Sessions</option>
@@ -447,7 +447,7 @@ export const ReceiptForm: React.FC<ReceiptFormProps> = ({
                 placeholder="Course name or description..."
                 value={customCourseInput}
                 onChange={e => setCustomCourseInput(e.target.value)}
-                className="w-full bg-slate-950 border border-slate-700 rounded px-2.5 py-1.5 text-xs text-white placeholder-slate-500"
+                className="w-full bg-white border border-slate-200 rounded px-2.5 py-1.5 text-xs text-slate-900 placeholder-slate-400"
               />
               <datalist id="popular-courses">
                 {POPULAR_COURSES.map(course => (
@@ -462,7 +462,7 @@ export const ReceiptForm: React.FC<ReceiptFormProps> = ({
                 placeholder="Fee (LKR)"
                 value={customFeeInput || ''}
                 onChange={e => setCustomFeeInput(parseFloat(e.target.value) || 0)}
-                className="w-full bg-slate-950 border border-slate-700 rounded px-2.5 py-1.5 text-xs font-mono text-white placeholder-slate-500 text-right"
+                className="w-full bg-white border border-slate-200 rounded px-2.5 py-1.5 text-xs font-mono text-slate-900 placeholder-slate-400 text-right"
               />
             </div>
 
@@ -481,9 +481,9 @@ export const ReceiptForm: React.FC<ReceiptFormProps> = ({
       </div>
 
       {/* ITEMS LIST (TABLE VIEW IN FORM) */}
-      <div className="space-y-3 pt-2 border-t border-slate-800">
+      <div className="space-y-3 pt-2 border-t border-slate-200">
         <div className="flex items-center justify-between">
-          <h3 className="text-xs font-bold uppercase tracking-wider text-slate-400">
+          <h3 className="text-xs font-bold uppercase tracking-wider text-slate-500">
             Receipt Line Items ({receipt.items.length})
           </h3>
           {receipt.items.length === 0 && (
@@ -495,7 +495,7 @@ export const ReceiptForm: React.FC<ReceiptFormProps> = ({
           {receipt.items.map((item, idx) => (
             <div
               key={item.id}
-              className="grid grid-cols-1 sm:grid-cols-12 gap-2 items-center bg-slate-900 p-2.5 rounded-lg border border-slate-700/70"
+              className="grid grid-cols-1 sm:grid-cols-12 gap-2 items-center bg-white p-2.5 rounded-lg border border-slate-200"
             >
               <div className="sm:col-span-5">
                 <input
@@ -503,7 +503,7 @@ export const ReceiptForm: React.FC<ReceiptFormProps> = ({
                   value={item.description}
                   onChange={e => handleUpdateItem(idx, { description: e.target.value })}
                   placeholder="Item description"
-                  className="w-full bg-slate-950 border border-slate-700 rounded px-2 py-1 text-xs text-white font-medium"
+                  className="w-full bg-white border border-slate-200 rounded px-2 py-1 text-xs text-slate-900 font-medium"
                 />
               </div>
 
@@ -511,7 +511,7 @@ export const ReceiptForm: React.FC<ReceiptFormProps> = ({
                 <select
                   value={item.category}
                   onChange={e => handleUpdateItem(idx, { category: e.target.value as SessionCategory })}
-                  className="w-full bg-slate-950 border border-slate-700 rounded px-1.5 py-1 text-[11px] text-sky-300"
+                  className="w-full bg-white border border-slate-200 rounded px-1.5 py-1 text-[11px] text-sky-700"
                 >
                   <option value="Physical Class">Physical Class</option>
                   <option value="Recorded Sessions">Recorded Sessions</option>
@@ -529,7 +529,7 @@ export const ReceiptForm: React.FC<ReceiptFormProps> = ({
                   min="1"
                   value={item.quantity}
                   onChange={e => handleUpdateItem(idx, { quantity: parseInt(e.target.value, 10) || 1 })}
-                  className="w-full bg-slate-950 border border-slate-700 rounded px-1.5 py-1 text-xs text-white text-center font-mono"
+                  className="w-full bg-white border border-slate-200 rounded px-1.5 py-1 text-xs text-slate-900 text-center font-mono"
                   title="Quantity"
                 />
               </div>
@@ -540,19 +540,19 @@ export const ReceiptForm: React.FC<ReceiptFormProps> = ({
                   step="500"
                   value={item.unitPrice}
                   onChange={e => handleUpdateItem(idx, { unitPrice: parseFloat(e.target.value) || 0 })}
-                  className="w-full bg-slate-950 border border-slate-700 rounded px-2 py-1 text-xs font-mono text-white text-right"
+                  className="w-full bg-white border border-slate-200 rounded px-2 py-1 text-xs font-mono text-slate-900 text-right"
                   title="Unit Price"
                 />
               </div>
 
               <div className="sm:col-span-2 flex items-center justify-between pl-1">
-                <span className="font-mono text-xs font-bold text-white tabular-nums">
+                <span className="font-mono text-xs font-bold text-slate-900 tabular-nums">
                   LKR {formatCurrency(item.amount)}
                 </span>
                 <button
                   type="button"
                   onClick={() => handleRemoveItem(idx)}
-                  className="text-slate-400 hover:text-rose-400 p-1 rounded hover:bg-slate-800 transition-colors"
+                  className="text-slate-500 hover:text-rose-600 p-1 rounded hover:bg-slate-100 transition-colors"
                   title="Delete item"
                 >
                   <Trash2 className="w-3.5 h-3.5" />
@@ -564,17 +564,17 @@ export const ReceiptForm: React.FC<ReceiptFormProps> = ({
       </div>
 
       {/* FINANCIAL SETTLEMENT: PAYMENT METHOD, DISCOUNT, AMOUNT PAID */}
-      <div className="space-y-4 pt-2 border-t border-slate-800">
-        <h3 className="text-xs font-bold uppercase tracking-wider text-slate-400 flex items-center gap-1.5">
-          <CreditCard className="w-3.5 h-3.5 text-sky-400" />
+      <div className="space-y-4 pt-2 border-t border-slate-200">
+        <h3 className="text-xs font-bold uppercase tracking-wider text-slate-500 flex items-center gap-1.5">
+          <CreditCard className="w-3.5 h-3.5 text-sky-600" />
           Payment Settlement & Balances
         </h3>
 
-        <div className="grid grid-cols-1 sm:grid-cols-12 gap-4 bg-slate-900/60 p-4 rounded-xl border border-slate-700/60">
+        <div className="grid grid-cols-1 sm:grid-cols-12 gap-4 bg-white/60 p-4 rounded-xl border border-slate-200">
           {/* Payment Method & Reference */}
           <div className="sm:col-span-6 space-y-3">
             <div>
-              <label className="text-[11px] font-medium text-slate-300 block mb-1">
+              <label className="text-[11px] font-medium text-slate-700 block mb-1">
                 Payment Method
               </label>
               <div className="grid grid-cols-2 gap-2">
@@ -586,7 +586,7 @@ export const ReceiptForm: React.FC<ReceiptFormProps> = ({
                     className={`py-1.5 px-3 text-xs font-semibold rounded-lg border transition-all text-center cursor-pointer ${
                       receipt.paymentMethod === method
                         ? 'bg-sky-600 border-sky-400 text-white shadow-sm'
-                        : 'bg-slate-950 border-slate-700 text-slate-300 hover:bg-slate-800'
+                        : 'bg-white border-slate-200 text-slate-700 hover:bg-slate-100'
                     }`}
                   >
                     {method}
@@ -597,7 +597,7 @@ export const ReceiptForm: React.FC<ReceiptFormProps> = ({
 
             {receipt.paymentMethod !== 'Cash' && (
               <div>
-                <label className="text-[11px] font-medium text-slate-300 block mb-1">
+                <label className="text-[11px] font-medium text-slate-700 block mb-1">
                   Bank Reference / Slip No / Transaction ID
                 </label>
                 <input
@@ -605,13 +605,13 @@ export const ReceiptForm: React.FC<ReceiptFormProps> = ({
                   placeholder="e.g. Commercial Bank Dep Ref #992831"
                   value={receipt.paymentReference || ''}
                   onChange={e => updateField('paymentReference', e.target.value)}
-                  className="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-1.5 text-xs text-white placeholder-slate-500 font-mono"
+                  className="w-full bg-white border border-slate-200 rounded-lg px-3 py-1.5 text-xs text-slate-900 placeholder-slate-400 font-mono"
                 />
               </div>
             )}
 
             <div>
-              <label className="text-[11px] font-medium text-slate-300 block mb-1">
+              <label className="text-[11px] font-medium text-slate-700 block mb-1">
                 Cashier / Counter Officer Note
               </label>
               <input
@@ -619,17 +619,17 @@ export const ReceiptForm: React.FC<ReceiptFormProps> = ({
                 placeholder="e.g. Full settlement. Course pack issued."
                 value={receipt.notes || ''}
                 onChange={e => updateField('notes', e.target.value)}
-                className="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-1.5 text-xs text-white placeholder-slate-500"
+                className="w-full bg-white border border-slate-200 rounded-lg px-3 py-1.5 text-xs text-slate-900 placeholder-slate-400"
               />
             </div>
           </div>
 
           {/* Numerical Settlement Panel */}
-          <div className="sm:col-span-6 space-y-3 bg-slate-950/70 p-3.5 rounded-lg border border-slate-800">
+          <div className="sm:col-span-6 space-y-3 bg-white/70 p-3.5 rounded-lg border border-slate-200">
             {/* Discount selector */}
             <div className="flex items-center justify-between gap-2">
-              <span className="text-xs text-slate-300 flex items-center gap-1">
-                <Percent className="w-3 h-3 text-slate-400" />
+              <span className="text-xs text-slate-700 flex items-center gap-1">
+                <Percent className="w-3 h-3 text-slate-500" />
                 Discount / Offer:
               </span>
               <div className="flex items-center gap-1.5">
@@ -641,7 +641,7 @@ export const ReceiptForm: React.FC<ReceiptFormProps> = ({
                     className={`px-2 py-0.5 text-[10px] rounded font-mono ${
                       receipt.discountType === 'percentage' && receipt.discountValue === pct
                         ? 'bg-emerald-600 text-white font-bold'
-                        : 'bg-slate-800 text-slate-300 hover:bg-slate-700'
+                        : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
                     }`}
                   >
                     {pct === 0 ? 'None' : `${pct}%`}
@@ -651,15 +651,15 @@ export const ReceiptForm: React.FC<ReceiptFormProps> = ({
             </div>
 
             {/* Subtotal & Net Total */}
-            <div className="flex justify-between items-center text-xs text-slate-400 pt-1 border-t border-slate-800">
+            <div className="flex justify-between items-center text-xs text-slate-500 pt-1 border-t border-slate-200">
               <span>Subtotal:</span>
-              <span className="font-mono tabular-nums text-slate-200">
+              <span className="font-mono tabular-nums text-slate-900">
                 LKR {formatCurrency(receipt.subtotal)}
               </span>
             </div>
 
             {receipt.discountAmount > 0 && (
-              <div className="flex justify-between items-center text-xs text-emerald-400 font-medium">
+              <div className="flex justify-between items-center text-xs text-emerald-600 font-medium">
                 <span>Discount Applied:</span>
                 <span className="font-mono tabular-nums">
                   - LKR {formatCurrency(receipt.discountAmount)}
@@ -667,9 +667,9 @@ export const ReceiptForm: React.FC<ReceiptFormProps> = ({
               </div>
             )}
 
-            <div className="flex justify-between items-center text-sm font-bold text-white border-t border-slate-800 pt-2">
+            <div className="flex justify-between items-center text-sm font-bold text-slate-900 border-t border-slate-200 pt-2">
               <span>Total Payable:</span>
-              <span className="font-mono tabular-nums text-sky-400">
+              <span className="font-mono tabular-nums text-sky-600">
                 LKR {formatCurrency(receipt.total)}
               </span>
             </div>
@@ -677,21 +677,21 @@ export const ReceiptForm: React.FC<ReceiptFormProps> = ({
             {/* Amount Paid Input & Quick Buttons */}
             <div>
               <div className="flex justify-between items-center mb-1">
-                <label className="text-xs font-bold text-slate-200">
+                <label className="text-xs font-bold text-slate-900">
                   Amount Paying Now (LKR):
                 </label>
                 <div className="flex gap-1">
                   <button
                     type="button"
                     onClick={handleSetFullPayment}
-                    className="text-[10px] bg-sky-900/60 hover:bg-sky-800 text-sky-300 px-2 py-0.5 rounded font-medium cursor-pointer"
+                    className="text-[10px] bg-sky-100/60 hover:bg-sky-200 text-sky-700 px-2 py-0.5 rounded font-medium cursor-pointer"
                   >
                     100% Full
                   </button>
                   <button
                     type="button"
                     onClick={handleSetHalfPayment}
-                    className="text-[10px] bg-amber-900/60 hover:bg-amber-800 text-amber-300 px-2 py-0.5 rounded font-medium cursor-pointer"
+                    className="text-[10px] bg-amber-100/60 hover:bg-amber-200 text-amber-700 px-2 py-0.5 rounded font-medium cursor-pointer"
                   >
                     50% Advance
                   </button>
@@ -710,7 +710,7 @@ export const ReceiptForm: React.FC<ReceiptFormProps> = ({
                     status: bal <= 0 ? 'Paid in Full' : 'Partial / Advance'
                   });
                 }}
-                className="w-full bg-slate-900 border border-sky-500/50 rounded-lg px-3 py-2 text-sm font-mono font-bold text-white focus:outline-none focus:border-sky-400"
+                className="w-full bg-white border border-sky-300 rounded-lg px-3 py-2 text-sm font-mono font-bold text-slate-900 focus:outline-none focus:border-sky-400"
               />
             </div>
 
@@ -718,8 +718,8 @@ export const ReceiptForm: React.FC<ReceiptFormProps> = ({
             <div
               className={`p-2.5 rounded-lg border flex flex-col gap-1.5 ${
                 receipt.balanceDue > 0
-                  ? 'bg-rose-950/40 border-rose-800/60 text-rose-200'
-                  : 'bg-emerald-950/40 border-emerald-800/60 text-emerald-200'
+                  ? 'bg-rose-50/40 border-rose-200 text-rose-700'
+                  : 'bg-emerald-50/40 border-emerald-200 text-emerald-700'
               }`}
             >
               <div className="flex justify-between items-center text-xs font-bold">
@@ -733,12 +733,12 @@ export const ReceiptForm: React.FC<ReceiptFormProps> = ({
 
               {receipt.balanceDue > 0 && (
                 <div className="flex items-center justify-between text-[11px] pt-1 border-t border-rose-900/60">
-                  <span className="text-rose-300 font-medium">Balance Settlement Due:</span>
+                  <span className="text-rose-700 font-medium">Balance Settlement Due:</span>
                   <input
                     type="date"
                     value={receipt.balanceDueDate || ''}
                     onChange={e => updateField('balanceDueDate', e.target.value)}
-                    className="bg-slate-950 border border-rose-800 rounded px-2 py-0.5 text-xs text-white"
+                    className="bg-white border border-rose-200 rounded px-2 py-0.5 text-xs text-slate-900"
                   />
                 </div>
               )}
@@ -748,7 +748,7 @@ export const ReceiptForm: React.FC<ReceiptFormProps> = ({
       </div>
 
       {/* ACTION BAR: PRINT A5, PRINT DUAL A4, WHATSAPP, LOCAL SAVE */}
-      <div className="pt-2 border-t border-slate-700 flex flex-wrap items-center justify-between gap-3">
+      <div className="pt-2 border-t border-slate-200 flex flex-wrap items-center justify-between gap-3">
         <div className="flex flex-wrap items-center gap-2">
           <button
             type="button"
@@ -773,7 +773,7 @@ export const ReceiptForm: React.FC<ReceiptFormProps> = ({
             <button
               type="button"
               onClick={onDownloadPNG}
-              className="flex items-center gap-1.5 px-3 py-2 bg-slate-800 hover:bg-slate-700 text-sky-400 border border-slate-700 rounded-lg font-semibold text-xs transition-colors cursor-pointer"
+              className="flex items-center gap-1.5 px-3 py-2 bg-slate-100 hover:bg-slate-200 text-sky-600 border border-slate-200 rounded-lg font-semibold text-xs transition-colors cursor-pointer"
               title="Download high-resolution A5 receipt image file (.png) locally"
             >
               <FileDown className="w-3.5 h-3.5" />
@@ -797,7 +797,7 @@ export const ReceiptForm: React.FC<ReceiptFormProps> = ({
             <button
               type="button"
               onClick={onDownloadJSON}
-              className="p-2 bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700 rounded-lg text-xs transition-colors cursor-pointer"
+              className="p-2 bg-slate-100 hover:bg-slate-200 text-slate-700 border border-slate-200 rounded-lg text-xs transition-colors cursor-pointer"
               title="Download local JSON invoice backup"
             >
               <FileCode className="w-3.5 h-3.5" />
@@ -807,10 +807,10 @@ export const ReceiptForm: React.FC<ReceiptFormProps> = ({
           <button
             type="button"
             onClick={onSave}
-            className="flex items-center gap-2 px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 rounded-lg font-medium text-xs transition-colors cursor-pointer"
+            className="flex items-center gap-2 px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-900 border border-slate-200 rounded-lg font-medium text-xs transition-colors cursor-pointer"
             title="Save permanently to browser local database"
           >
-            <HardDrive className="w-3.5 h-3.5 text-sky-400" />
+            <HardDrive className="w-3.5 h-3.5 text-sky-600" />
             Save to Local Ledger
           </button>
         </div>

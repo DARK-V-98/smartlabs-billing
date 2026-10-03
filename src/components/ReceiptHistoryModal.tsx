@@ -103,17 +103,17 @@ export const ReceiptHistoryModal: React.FC<ReceiptHistoryModalProps> = ({
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-sm animate-in fade-in">
-      <div className="bg-slate-900 border border-slate-700/80 w-full max-w-5xl max-h-[90vh] rounded-2xl shadow-2xl flex flex-col overflow-hidden text-slate-200">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-white/80 backdrop-blur-sm animate-in fade-in">
+      <div className="bg-white border border-slate-200 w-full max-w-5xl max-h-[90vh] rounded-2xl shadow-2xl flex flex-col overflow-hidden text-slate-900">
         {/* MODAL HEADER */}
-        <div className="p-5 border-b border-slate-800 flex items-center justify-between">
+        <div className="p-5 border-b border-slate-200 flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-sky-950 border border-sky-600/30 flex items-center justify-center text-sky-400">
+            <div className="w-10 h-10 rounded-xl bg-sky-50 border border-sky-300 flex items-center justify-center text-sky-600">
               <History className="w-5 h-5" />
             </div>
             <div>
-              <h2 className="text-lg font-bold text-white">SmartLabs Receipt Ledger & Records</h2>
-              <p className="text-xs text-slate-400">
+              <h2 className="text-lg font-bold text-slate-900">SmartLabs Receipt Ledger & Records</h2>
+              <p className="text-xs text-slate-500">
                 Search, reprint, audit, or export student bills and payment slips
               </p>
             </div>
@@ -122,15 +122,15 @@ export const ReceiptHistoryModal: React.FC<ReceiptHistoryModalProps> = ({
           <div className="flex flex-wrap items-center gap-2">
             <button
               onClick={() => exportAllReceiptsJSON(receipts)}
-              className="flex items-center gap-1.5 px-2.5 py-1.5 text-xs font-medium text-sky-300 bg-sky-950/70 hover:bg-sky-900/80 border border-sky-700/50 rounded-lg transition-colors cursor-pointer"
+              className="flex items-center gap-1.5 px-2.5 py-1.5 text-xs font-medium text-sky-700 bg-sky-50/70 hover:bg-sky-100/80 border border-sky-200 rounded-lg transition-colors cursor-pointer"
               title="Save all invoices locally as a JSON backup file"
             >
-              <FileCode className="w-3.5 h-3.5 text-sky-400" />
+              <FileCode className="w-3.5 h-3.5 text-sky-600" />
               Save JSON Backup
             </button>
 
-            <label className="flex items-center gap-1.5 px-2.5 py-1.5 text-xs font-medium text-slate-300 bg-slate-800 hover:bg-slate-700 border border-slate-700 rounded-lg transition-colors cursor-pointer">
-              <Upload className="w-3.5 h-3.5 text-slate-400" />
+            <label className="flex items-center gap-1.5 px-2.5 py-1.5 text-xs font-medium text-slate-700 bg-slate-100 hover:bg-slate-200 border border-slate-200 rounded-lg transition-colors cursor-pointer">
+              <Upload className="w-3.5 h-3.5 text-slate-500" />
               Restore Backup
               <input
                 type="file"
@@ -142,16 +142,16 @@ export const ReceiptHistoryModal: React.FC<ReceiptHistoryModalProps> = ({
 
             <button
               onClick={() => exportReceiptsToCSV(receipts)}
-              className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold text-emerald-300 bg-emerald-950/70 hover:bg-emerald-900/80 border border-emerald-700/50 rounded-lg transition-colors cursor-pointer"
+              className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold text-emerald-700 bg-emerald-50/70 hover:bg-emerald-100/80 border border-emerald-200 rounded-lg transition-colors cursor-pointer"
               title="Download entire history into Excel CSV"
             >
-              <FileSpreadsheet className="w-4 h-4 text-emerald-400" />
+              <FileSpreadsheet className="w-4 h-4 text-emerald-600" />
               Export to Excel (CSV)
             </button>
 
             <button
               onClick={onClose}
-              className="p-1.5 text-slate-400 hover:text-white rounded-lg hover:bg-slate-800 transition-colors cursor-pointer"
+              className="p-1.5 text-slate-500 hover:text-slate-900 rounded-lg hover:bg-slate-100 transition-colors cursor-pointer"
             >
               <X className="w-5 h-5" />
             </button>
@@ -159,59 +159,59 @@ export const ReceiptHistoryModal: React.FC<ReceiptHistoryModalProps> = ({
         </div>
 
         {importStatus && (
-          <div className="bg-emerald-950/90 border-b border-emerald-600/40 text-emerald-200 px-5 py-2 text-xs font-medium flex items-center justify-between">
+          <div className="bg-emerald-50/90 border-b border-emerald-300 text-emerald-700 px-5 py-2 text-xs font-medium flex items-center justify-between">
             <span>{importStatus}</span>
           </div>
         )}
 
         {/* METRICS STRIP */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-3 p-4 bg-slate-950/50 border-b border-slate-800/80 text-xs">
-          <div className="bg-slate-900/90 p-3 rounded-xl border border-slate-800">
-            <span className="text-slate-400 text-[11px] block">Today's Receipts</span>
-            <span className="text-xl font-bold font-mono text-white mt-0.5 block">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-3 p-4 bg-white/50 border-b border-slate-200 text-xs">
+          <div className="bg-white/90 p-3 rounded-xl border border-slate-200">
+            <span className="text-slate-500 text-[11px] block">Today's Receipts</span>
+            <span className="text-xl font-bold font-mono text-slate-900 mt-0.5 block">
               {stats.todayCount} slips
             </span>
           </div>
-          <div className="bg-slate-900/90 p-3 rounded-xl border border-slate-800">
-            <span className="text-slate-400 text-[11px] block">Collected Today</span>
-            <span className="text-xl font-bold font-mono text-emerald-400 mt-0.5 block tabular-nums">
+          <div className="bg-white/90 p-3 rounded-xl border border-slate-200">
+            <span className="text-slate-500 text-[11px] block">Collected Today</span>
+            <span className="text-xl font-bold font-mono text-emerald-600 mt-0.5 block tabular-nums">
               LKR {formatCurrency(stats.todayCollected)}
             </span>
           </div>
-          <div className="bg-slate-900/90 p-3 rounded-xl border border-slate-800">
-            <span className="text-slate-400 text-[11px] block">Total Outstanding Balances</span>
-            <span className="text-xl font-bold font-mono text-rose-400 mt-0.5 block tabular-nums">
+          <div className="bg-white/90 p-3 rounded-xl border border-slate-200">
+            <span className="text-slate-500 text-[11px] block">Total Outstanding Balances</span>
+            <span className="text-xl font-bold font-mono text-rose-600 mt-0.5 block tabular-nums">
               LKR {formatCurrency(stats.totalOutstanding)}
             </span>
           </div>
-          <div className="bg-slate-900/90 p-3 rounded-xl border border-slate-800">
-            <span className="text-slate-400 text-[11px] block">All-Time Receipts</span>
-            <span className="text-xl font-bold font-mono text-sky-400 mt-0.5 block">
+          <div className="bg-white/90 p-3 rounded-xl border border-slate-200">
+            <span className="text-slate-500 text-[11px] block">All-Time Receipts</span>
+            <span className="text-xl font-bold font-mono text-sky-600 mt-0.5 block">
               {stats.allCount} recorded
             </span>
           </div>
         </div>
 
         {/* SEARCH & FILTERS */}
-        <div className="p-4 border-b border-slate-800 flex flex-wrap items-center justify-between gap-3">
+        <div className="p-4 border-b border-slate-200 flex flex-wrap items-center justify-between gap-3">
           <div className="relative flex-1 min-w-[240px]">
-            <Search className="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
+            <Search className="w-4 h-4 text-slate-500 absolute left-3 top-1/2 -translate-y-1/2" />
             <input
               type="text"
               placeholder="Search by student name, receipt #, student ID, phone, or course..."
               value={searchQuery}
               onChange={e => setSearchQuery(e.target.value)}
-              className="w-full bg-slate-950 border border-slate-700/80 rounded-xl pl-9 pr-3 py-2 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-sky-500"
+              className="w-full bg-white border border-slate-200 rounded-xl pl-9 pr-3 py-2 text-xs text-slate-900 placeholder-slate-400 focus:outline-none focus:border-sky-300"
             />
           </div>
 
           <div className="flex items-center gap-2">
             {/* Date filter */}
-            <div className="flex bg-slate-950 p-1 rounded-lg border border-slate-800 text-xs">
+            <div className="flex bg-white p-1 rounded-lg border border-slate-200 text-xs">
               <button
                 onClick={() => setDateFilter('all')}
                 className={`px-3 py-1 rounded text-[11px] font-medium transition-colors cursor-pointer ${
-                  dateFilter === 'all' ? 'bg-sky-600 text-white font-bold' : 'text-slate-400 hover:text-white'
+                  dateFilter === 'all' ? 'bg-sky-600 text-white font-bold' : 'text-slate-500 hover:text-white'
                 }`}
               >
                 All Dates
@@ -219,7 +219,7 @@ export const ReceiptHistoryModal: React.FC<ReceiptHistoryModalProps> = ({
               <button
                 onClick={() => setDateFilter('today')}
                 className={`px-3 py-1 rounded text-[11px] font-medium transition-colors cursor-pointer ${
-                  dateFilter === 'today' ? 'bg-sky-600 text-white font-bold' : 'text-slate-400 hover:text-white'
+                  dateFilter === 'today' ? 'bg-sky-600 text-white font-bold' : 'text-slate-500 hover:text-white'
                 }`}
               >
                 Today Only
@@ -230,7 +230,7 @@ export const ReceiptHistoryModal: React.FC<ReceiptHistoryModalProps> = ({
             <select
               value={statusFilter}
               onChange={e => setStatusFilter(e.target.value as any)}
-              className="bg-slate-950 border border-slate-800 rounded-lg px-2.5 py-1.5 text-xs text-white"
+              className="bg-white border border-slate-200 rounded-lg px-2.5 py-1.5 text-xs text-slate-900"
             >
               <option value="all">All Statuses</option>
               <option value="Paid in Full">Paid in Full</option>
@@ -252,33 +252,33 @@ export const ReceiptHistoryModal: React.FC<ReceiptHistoryModalProps> = ({
               {filteredReceipts.map(rec => (
                 <div
                   key={rec.id}
-                  className="bg-slate-950/70 border border-slate-800 hover:border-slate-700 p-3 rounded-xl flex flex-wrap md:flex-nowrap items-center justify-between gap-3 transition-colors"
+                  className="bg-white/70 border border-slate-200 hover:border-slate-200 p-3 rounded-xl flex flex-wrap md:flex-nowrap items-center justify-between gap-3 transition-colors"
                 >
                   {/* Left: Receipt details */}
                   <div className="flex-1 min-w-[200px]">
                     <div className="flex items-center gap-2">
-                      <span className="font-mono text-xs font-bold text-sky-400">
+                      <span className="font-mono text-xs font-bold text-sky-600">
                         {rec.receiptNumber}
                       </span>
                       <span className="text-slate-500 text-xs">·</span>
-                      <span className="text-xs text-slate-400">{rec.issueDate}</span>
+                      <span className="text-xs text-slate-500">{rec.issueDate}</span>
                       <span className="text-slate-500 text-xs font-mono">{rec.issueTime}</span>
-                      <span className="text-xs font-bold uppercase tracking-wider px-1.5 py-0.5 rounded text-[10px] bg-slate-800 text-slate-300">
+                      <span className="text-xs font-bold uppercase tracking-wider px-1.5 py-0.5 rounded text-[10px] bg-slate-100 text-slate-700">
                         {rec.type}
                       </span>
                     </div>
 
                     <div className="mt-1 flex items-baseline gap-2">
-                      <span className="text-sm font-bold text-white">{rec.studentName}</span>
-                      <span className="text-xs font-mono text-slate-400">({rec.studentId})</span>
+                      <span className="text-sm font-bold text-slate-900">{rec.studentName}</span>
+                      <span className="text-xs font-mono text-slate-500">({rec.studentId})</span>
                       <span className="text-xs font-mono text-slate-500">{rec.studentPhone}</span>
                     </div>
 
-                    <div className="text-xs text-slate-400 mt-0.5 flex flex-wrap gap-1.5">
+                    <div className="text-xs text-slate-500 mt-0.5 flex flex-wrap gap-1.5">
                       {rec.items.map(item => (
                         <span
                           key={item.id}
-                          className="bg-slate-900 border border-slate-800 text-slate-300 px-1.5 py-0.2 rounded text-[10.5px]"
+                          className="bg-white border border-slate-200 text-slate-700 px-1.5 py-0.2 rounded text-[10.5px]"
                         >
                           {item.description} ({item.category})
                         </span>
@@ -288,21 +288,21 @@ export const ReceiptHistoryModal: React.FC<ReceiptHistoryModalProps> = ({
 
                   {/* Middle: Financials */}
                   <div className="text-right shrink-0 min-w-[150px] space-y-0.5">
-                    <div className="text-xs font-bold font-mono text-white tabular-nums">
+                    <div className="text-xs font-bold font-mono text-slate-900 tabular-nums">
                       Paid: LKR {formatCurrency(rec.amountPaid)}
                     </div>
                     {rec.balanceDue > 0 ? (
-                      <div className="text-[11px] font-mono text-rose-400 font-semibold tabular-nums">
+                      <div className="text-[11px] font-mono text-rose-600 font-semibold tabular-nums">
                         Bal: LKR {formatCurrency(rec.balanceDue)}
                         {rec.balanceDueDate && ` (Due ${rec.balanceDueDate})`}
                       </div>
                     ) : (
-                      <div className="text-[10px] font-bold text-emerald-400">
+                      <div className="text-[10px] font-bold text-emerald-600">
                         Paid in Full ✅
                       </div>
                     )}
-                    <div className="text-[10.5px] text-slate-400">
-                      Method: <strong className="text-slate-300">{rec.paymentMethod}</strong>
+                    <div className="text-[10.5px] text-slate-500">
+                      Method: <strong className="text-slate-700">{rec.paymentMethod}</strong>
                     </div>
                   </div>
 
@@ -313,21 +313,21 @@ export const ReceiptHistoryModal: React.FC<ReceiptHistoryModalProps> = ({
                         onSelectReceipt(rec);
                         onClose();
                       }}
-                      className="p-1.5 bg-slate-800 hover:bg-slate-700 text-sky-400 rounded-lg transition-colors cursor-pointer"
+                      className="p-1.5 bg-slate-100 hover:bg-slate-200 text-sky-600 rounded-lg transition-colors cursor-pointer"
                       title="Load into Receipt Editor"
                     >
                       <Eye className="w-4 h-4" />
                     </button>
                     <button
                       onClick={() => exportReceiptAsJSON(rec)}
-                      className="p-1.5 bg-slate-800 hover:bg-slate-700 text-amber-400 rounded-lg transition-colors cursor-pointer"
+                      className="p-1.5 bg-slate-100 hover:bg-slate-200 text-amber-400 rounded-lg transition-colors cursor-pointer"
                       title="Download receipt JSON backup locally"
                     >
                       <FileCode className="w-4 h-4" />
                     </button>
                     <button
                       onClick={() => onPrintA5(rec)}
-                      className="p-1.5 bg-slate-800 hover:bg-slate-700 text-slate-200 rounded-lg transition-colors cursor-pointer"
+                      className="p-1.5 bg-slate-100 hover:bg-slate-200 text-slate-900 rounded-lg transition-colors cursor-pointer"
                       title="Print A5 Receipt"
                     >
                       <Printer className="w-4 h-4" />
@@ -338,7 +338,7 @@ export const ReceiptHistoryModal: React.FC<ReceiptHistoryModalProps> = ({
                           onDeleteReceipt(rec.id);
                         }
                       }}
-                      className="p-1.5 bg-slate-800 hover:bg-rose-950 text-slate-400 hover:text-rose-400 rounded-lg transition-colors cursor-pointer"
+                      className="p-1.5 bg-slate-100 hover:bg-rose-50 text-slate-500 hover:text-rose-600 rounded-lg transition-colors cursor-pointer"
                       title="Delete record"
                     >
                       <Trash2 className="w-4 h-4" />
@@ -351,7 +351,7 @@ export const ReceiptHistoryModal: React.FC<ReceiptHistoryModalProps> = ({
         </div>
 
         {/* MODAL FOOTER */}
-        <div className="p-3.5 bg-slate-950/80 border-t border-slate-800 flex items-center justify-between text-xs text-slate-500">
+        <div className="p-3.5 bg-white/80 border-t border-slate-200 flex items-center justify-between text-xs text-slate-500">
           <span>Showing {filteredReceipts.length} of {receipts.length} records</span>
           <span>Smartlabs (Pvt) Ltd Official Registry</span>
         </div>

@@ -17,6 +17,7 @@ export const ReceiptA5: React.FC<ReceiptA5Props> = ({
   copyLabel = 'STUDENT COPY',
   isPrintMode = false
 }) => {
+  const sealPathId = "sl-seal-path";
   const qrVerificationPayload = JSON.stringify({
     ref: receipt.receiptNumber,
     std: receipt.studentName,
@@ -309,7 +310,7 @@ export const ReceiptA5: React.FC<ReceiptA5Props> = ({
         <div className="grid grid-cols-12 gap-3 items-end">
           {/* Verification QR Code */}
           <div className="col-span-3 flex flex-col items-center justify-center p-1 bg-white border border-slate-200 rounded">
-            <ReceiptQRCode value={qrVerificationPayload} size={58} />
+            <ReceiptQRCode value={qrVerificationPayload} size={84} />
             <span className="text-[7.5px] text-slate-500 font-mono tracking-tight mt-0.5 text-center">
               Scan to Verify Official Slip
             </span>
@@ -330,15 +331,29 @@ export const ReceiptA5: React.FC<ReceiptA5Props> = ({
           {/* Official Signatures & Seal */}
           <div className="col-span-4 flex flex-col justify-end text-center">
             <div className="relative mb-1">
-              {/* Digital Institute Seal / Stamp representation */}
-              <div className="inline-block border-2 border-dashed border-sky-800/40 rounded-full px-2 py-0.5 text-[8px] font-bold text-sky-800 rotate-[-4deg]">
-                SMARTLABS CERTIFIED
-              </div>
+              {/* Official circular institute seal */}
+              <svg viewBox="0 0 120 120" width="74" height="74" className="inline-block -rotate-6" aria-label="SmartLabs certified seal">
+                <defs>
+                  <path id={sealPathId} d="M60,60 m-44,0 a44,44 0 1,1 88,0 a44,44 0 1,1 -88,0" fill="none" />
+                </defs>
+                <circle cx="60" cy="60" r="58" fill="#ffffff" />
+                <circle cx="60" cy="60" r="56" fill="none" stroke="#0a4fa3" strokeWidth="3" />
+                <circle cx="60" cy="60" r="41" fill="none" stroke="#0a4fa3" strokeWidth="1.2" />
+                <circle cx="60" cy="60" r="27" fill="none" stroke="#f08c00" strokeWidth="1" strokeDasharray="2 2" />
+                <text fontFamily="Plus Jakarta Sans, Arial, sans-serif" fontSize="9.5" fontWeight="800" letterSpacing="0.9" fill="#0a4fa3">
+                  <textPath href={`#${sealPathId}`} startOffset="0%">SMARTLABS (PVT) LTD • CERTIFIED •</textPath>
+                </text>
+                <path d="M60 42 L64.5 53 L76 54 L67 61.5 L70 73 L60 66.5 L50 73 L53 61.5 L44 54 L55.5 53 Z" fill="#f08c00" />
+                <text x="60" y="88" textAnchor="middle" fontFamily="Plus Jakarta Sans, Arial, sans-serif" fontSize="6" fontWeight="700" letterSpacing="1" fill="#0a4fa3">VERIFIED</text>
+              </svg>
             </div>
 
             <div className="border-t border-slate-400 pt-1 text-[9px] font-semibold text-slate-800">
-              Authorized Cashier / Officer
+              {institute.adminName || 'Authorized Cashier / Officer'}
             </div>
+            {institute.adminName && (
+              <div className="text-[8px] text-slate-500">Authorized Admin</div>
+            )}
             <div className="text-[8px] text-slate-500">
               Smartlabs (Pvt) Ltd · Nugegoda
             </div>
