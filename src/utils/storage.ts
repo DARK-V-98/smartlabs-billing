@@ -162,7 +162,7 @@ function getSampleReceipts(): ReceiptData[] {
         {
           id: 'item-1',
           category: 'Physical Class',
-          description: 'Physical Class - In-Person Lab & Classroom Lectures (Robotics Level 1)',
+          description: 'Physical Class - In-Person Classroom Lectures (Robotics Level 1)',
           code: 'ROB-101',
           quantity: 1,
           unitPrice: 12000,
@@ -186,7 +186,7 @@ function getSampleReceipts(): ReceiptData[] {
       amountPaid: 13500,
       balanceDue: 0,
       paymentMethod: 'Cash',
-      notes: 'Full payment completed. Student issued Lab Access Card.',
+      notes: 'Full payment completed. Student issued Student ID Card.',
       createdAt: new Date(Date.now() - 3600000 * 4).toISOString(),
       status: 'Paid in Full'
     },

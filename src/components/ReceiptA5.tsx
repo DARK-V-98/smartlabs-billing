@@ -323,7 +323,7 @@ export const ReceiptA5: React.FC<ReceiptA5Props> = ({
             </p>
             <ol className="list-decimal pl-3 space-y-0.5">
               <li>Fees once paid are non-refundable and non-transferable.</li>
-              <li>Valid for official course entry, lab practicals & LMS access.</li>
+              <li>Valid for official course entry, practical sessions & LMS access.</li>
               <li>Please keep this official receipt for student records.</li>
             </ol>
           </div>

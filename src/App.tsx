@@ -79,7 +79,7 @@ export default function App() {
     const initialItem: ReceiptItem = {
       id: 'item-' + Date.now(),
       category: 'Physical Class',
-      description: 'Physical Class - In-Person Lab & Classroom Lectures',
+      description: 'Physical Class - In-Person Classroom Lectures',
       quantity: 1,
       unitPrice: 50000,
       amount: 50000

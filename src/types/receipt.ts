@@ -77,7 +77,7 @@ export const DEFAULT_INSTITUTE_INFO: InstituteInfo = {
   adminName: '',
   terms: [
     'Fees once paid are non-refundable and non-transferable under any circumstances.',
-    'Please present this official receipt for class attendance, lab access, and course materials.',
+    'Please present this official receipt for class attendance, campus access, and course materials.',
     'Any outstanding balance must be settled on or before the specified due date.',
     'Smartlabs (Pvt) Ltd reserves the right to verify registration credentials upon lab entry.'
   ]
@@ -107,7 +107,7 @@ export const QUICK_SESSION_PRESETS: {
   {
     category: 'Physical Class',
     label: 'Physical Class',
-    defaultTitle: 'Physical Class - In-Person Lab & Classroom Lectures',
+    defaultTitle: 'Physical Class - In-Person Classroom Lectures',
     typicalFee: 50000,
     badgeColor: 'bg-sky-50 text-sky-700 border-sky-200'
   },
