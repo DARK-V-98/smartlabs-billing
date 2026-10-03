@@ -307,9 +307,9 @@ export const ReceiptA5: React.FC<ReceiptA5Props> = ({
 
       {/* FOOTER SECTION: QR CODE, TERMS & SIGNATURES */}
       <div className="pt-2 border-t border-slate-200">
-        <div className="grid grid-cols-12 gap-3 items-end">
+        <div className="grid grid-cols-12 gap-3 items-stretch">
           {/* Verification QR Code */}
-          <div className="col-span-3 flex flex-col items-center justify-center p-1 bg-white border border-slate-200 rounded">
+          <div className="col-span-3 flex flex-col items-center justify-start p-1 bg-white border border-slate-200 rounded">
             <ReceiptQRCode value={qrVerificationPayload} size={84} />
             <span className="text-[7.5px] text-slate-500 font-mono tracking-tight mt-0.5 text-center">
               Scan to Verify Official Slip
@@ -317,7 +317,7 @@ export const ReceiptA5: React.FC<ReceiptA5Props> = ({
           </div>
 
           {/* Terms & Conditions */}
-          <div className="col-span-5 text-[8px] text-slate-500 leading-tight space-y-0.5">
+          <div className="col-span-5 text-[8px] text-slate-500 leading-tight space-y-0.5 pt-1">
             <p className="font-bold text-slate-700 uppercase tracking-wider text-[8.5px]">
               Terms & Conditions:
             </p>
@@ -329,7 +329,7 @@ export const ReceiptA5: React.FC<ReceiptA5Props> = ({
           </div>
 
           {/* Official Signatures & Seal */}
-          <div className="col-span-4 flex flex-col justify-end text-center">
+          <div className="col-span-4 flex flex-col justify-between items-center text-center">
             <div className="relative mb-1">
               {/* Official circular institute seal */}
               <svg viewBox="0 0 120 120" width="74" height="74" className="inline-block -rotate-6" aria-label="SmartLabs certified seal">
@@ -348,7 +348,7 @@ export const ReceiptA5: React.FC<ReceiptA5Props> = ({
               </svg>
             </div>
 
-            <div className="border-t border-slate-400 pt-1 text-[9px] font-semibold text-slate-800">
+            <div className="w-full border-t border-slate-400 pt-1 text-[9px] font-semibold text-slate-800">
               {institute.adminName || 'Authorized Cashier / Officer'}
             </div>
             {institute.adminName && (
