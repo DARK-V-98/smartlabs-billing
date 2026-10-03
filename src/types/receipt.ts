@@ -60,6 +60,8 @@ export interface ReceiptData {
   paymentReference?: string;
   notes?: string;
   createdAt: string;
+  createdBy?: string;
+  createdByName?: string;
   status: 'Paid in Full' | 'Partial / Advance' | 'Pending';
 }
 

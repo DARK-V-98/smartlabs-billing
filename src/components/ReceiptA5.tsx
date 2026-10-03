@@ -18,16 +18,8 @@ export const ReceiptA5: React.FC<ReceiptA5Props> = ({
   isPrintMode = false
 }) => {
   const sealPathId = "sl-seal-path";
-  const qrVerificationPayload = JSON.stringify({
-    ref: receipt.receiptNumber,
-    std: receipt.studentName,
-    id: receipt.studentId,
-    paid: receipt.amountPaid,
-    bal: receipt.balanceDue,
-    dt: receipt.issueDate,
-    org: 'Smartlabs (Pvt) Ltd',
-    url: 'https://www.smartlabs.lk'
-  });
+  const verifyBase = import.meta.env.VITE_PUBLIC_APP_URL || window.location.origin + window.location.pathname;
+  const qrVerificationPayload = `${verifyBase}?verify=${encodeURIComponent(receipt.receiptNumber)}`;
 
   return (
     <div

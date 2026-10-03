@@ -16,7 +16,8 @@ import {
   getReceipts,
   getSavedInstituteInfo,
   saveInstituteInfo,
-  saveReceipt
+  saveReceipt,
+  saveReceipts
 } from './utils/storage';
 import { formatCurrency } from './utils/numberToWords';
 import { SmartLabsOfficialLogo } from './components/SmartLabsOfficialLogo';
@@ -26,9 +27,18 @@ import { ReceiptForm } from './components/ReceiptForm';
 import { ReceiptHistoryModal } from './components/ReceiptHistoryModal';
 import { InstituteSettingsModal } from './components/InstituteSettingsModal';
 import { DeviceStorageModal } from './components/DeviceStorageModal';
-import { SessionSetupModal } from './components/SessionSetupModal';
+import { LoginScreen } from './components/LoginScreen';
+import { AdminPanel } from './components/AdminPanel';
+import { VerifyReceipt } from './components/VerifyReceipt';
 import { downloadReceiptAsImage, exportReceiptAsJSON } from './utils/localSaver';
 import { buildSnapshot, saveInvoiceToFolder, saveSnapshotToFolder } from './utils/deviceStore';
+import {
+  allocateReceiptNumber,
+  deleteReceiptCloud,
+  saveReceiptCloud,
+  subscribeReceipts
+} from './utils/cloudStore';
+import { AppUser, loadSession, saveSession } from './utils/auth';
 import {
   Building2,
   CheckCircle,
@@ -43,18 +53,36 @@ import {
   History,
   Info,
   Layers,
+  LogOut,
   Phone,
   Printer,
   Settings,
   Share2,
+  Shield,
   Sparkles,
   Users
 } from 'lucide-react';
 
+const PENDING_RECEIPT_NUMBER = 'SL-REC-PENDING';
+
 export default function App() {
+  // A receipt QR code opens the app with ?verify=<receipt number>; that page is public
+  const verifyNumber = new URLSearchParams(window.location.search).get('verify');
+  const [user, setUser] = useState<AppUser | null>(() => loadSession());
   const [institute, setInstitute] = useState<InstituteInfo>(() => getSavedInstituteInfo());
   const [receipts, setReceipts] = useState<ReceiptData[]>(() => getReceipts());
   const [lastDeviceSave, setLastDeviceSave] = useState<string | null>(null);
+  const [isAdminOpen, setIsAdminOpen] = useState(false);
+
+  // Keep the list in sync with the Firestore database (every computer sees the same records)
+  useEffect(() => {
+    if (!user || verifyNumber) return;
+    return subscribeReceipts(cloud => {
+      const sorted = [...cloud].sort((a, b) => (b.createdAt || '').localeCompare(a.createdAt || ''));
+      saveReceipts(sorted);
+      setReceipts(sorted);
+    });
+  }, [user, verifyNumber]);
 
   // Auto-save a snapshot to the linked device folder after every change
   useEffect(() => {
@@ -74,6 +102,7 @@ export default function App() {
     const today = new Date().toISOString().split('T')[0];
     const hours = new Date().getHours().toString().padStart(2, '0');
     const minutes = new Date().getMinutes().toString().padStart(2, '0');
+    // Temporary number until the database reserves the real one (see assignCloudNumber)
     const nextNo = getNextReceiptNumber();
 
     const initialItem: ReceiptItem = {
@@ -95,7 +124,7 @@ export default function App() {
       studentId: `SL-STD-${new Date().getFullYear()}-${Math.floor(100 + Math.random() * 900)}`,
       studentPhone: '',
       batch: 'Batch 2026-A (Weekend)',
-      cashierName: institute.currentUserName || institute.cashierName || 'SmartLabs Reception Counter 01',
+      cashierName: user?.displayName || institute.cashierName || 'SmartLabs Reception Counter 01',
       items: [initialItem],
       subtotal: 50000,
       discountType: 'percentage',
@@ -117,21 +146,47 @@ export default function App() {
   const [isHistoryOpen, setIsHistoryOpen] = useState(false);
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
   const [isDeviceOpen, setIsDeviceOpen] = useState(false);
-  const [sessionReady, setSessionReady] = useState(false);
   const [saveSuccess, setSaveSuccess] = useState(false);
   const [downloadingImage, setDownloadingImage] = useState(false);
 
-  // Keep every invoice on the device: ledger + its own file in the linked folder
+  // Ask the database for a receipt number nobody else has used
+  const assignCloudNumber = async (target: ReceiptData) => {
+    try {
+      const receiptNumber = await allocateReceiptNumber();
+      setReceipt(current => (current.id === target.id ? { ...current, receiptNumber } : current));
+    } catch (err) {
+      console.error('Could not reserve a receipt number from the database', err);
+    }
+  };
+
+  // Reserve a number for the first receipt right after login
+  useEffect(() => {
+    if (user && !verifyNumber) assignCloudNumber(receipt);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [user]);
+
+  // Keep every invoice in the database and on the device: ledger + its own file in the linked folder
   // (or a downloaded JSON file when no folder is linked)
   const persistInvoice = async (rec: ReceiptData) => {
-    saveReceipt(rec);
+    const stamped: ReceiptData = {
+      ...rec,
+      createdBy: rec.createdBy || user?.username,
+      createdByName: rec.createdByName || user?.displayName
+    };
+    if (user) {
+      saveReceiptCloud(stamped, user).catch(err => {
+        console.error('Saving receipt to database failed', err);
+        alert('This receipt could not be saved to the database. Check the internet connection and save it again.');
+      });
+    }
+    saveReceipt(stamped);
     setReceipts(getReceipts());
     try {
-      const savedToFolder = await saveInvoiceToFolder(rec);
-      if (!savedToFolder) exportReceiptAsJSON(rec);
+      const savedToFolder = await saveInvoiceToFolder(stamped);
+      if (!savedToFolder) exportReceiptAsJSON(stamped);
     } catch (err) {
       console.error('Saving invoice to device failed', err);
-      exportReceiptAsJSON(rec);
+      exportReceiptAsJSON(stamped);
     }
   };
 
@@ -198,8 +253,21 @@ export default function App() {
 
   // Handle Reset / New
   const handleReset = () => {
-    setReceipt(createNewReceipt());
+    const fresh = createNewReceipt();
+    setReceipt(fresh);
     setSaveSuccess(false);
+    assignCloudNumber(fresh);
+  };
+
+  const handleLogin = (loggedIn: AppUser) => {
+    saveSession(loggedIn);
+    setUser(loggedIn);
+  };
+
+  const handleLogout = () => {
+    saveSession(null);
+    setUser(null);
+    setIsAdminOpen(false);
   };
 
   // Handle Settings Save
@@ -210,14 +278,24 @@ export default function App() {
 
   // Handle Delete
   const handleDeleteReceipt = (id: string) => {
+    const target = receipts.find(r => r.id === id);
     const updated = deleteReceipt(id);
     setReceipts(updated);
+    if (target) {
+      deleteReceiptCloud(target.receiptNumber).catch(err => {
+        console.error('Deleting receipt from database failed', err);
+        alert('The receipt was removed on this computer but could not be removed from the database.');
+      });
+    }
   };
 
   // Load from History
   const handleSelectFromHistory = (selected: ReceiptData) => {
     setReceipt(selected);
   };
+
+  if (verifyNumber) return <VerifyReceipt receiptNumber={verifyNumber} />;
+  if (!user) return <LoginScreen onLogin={handleLogin} />;
 
   return (
     <div className="min-h-screen bg-slate-50 text-slate-900 flex flex-col font-sans selection:bg-sky-500 selection:text-white">
@@ -282,6 +360,14 @@ export default function App() {
           {/* Zone 3: Primary Actions */}
           <div className="flex items-center gap-2">
             <button
+              onClick={() => setIsAdminOpen(true)}
+              className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold bg-slate-100 hover:bg-slate-200 text-slate-700 border border-slate-200 rounded-lg transition-colors cursor-pointer"
+            >
+              <Shield className="w-3.5 h-3.5" />
+              <span className="hidden sm:inline">Admin Panel</span>
+            </button>
+
+            <button
               onClick={() => setIsHistoryOpen(true)}
               className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold bg-slate-100 hover:bg-slate-200 text-sky-600 border border-slate-200 rounded-lg transition-colors cursor-pointer"
             >
@@ -314,6 +400,14 @@ export default function App() {
               <Printer className="w-3.5 h-3.5" />
               <span>Print A5</span>
             </button>
+
+            <button
+              onClick={handleLogout}
+              className="flex items-center gap-1.5 px-2.5 py-1.5 text-xs font-medium text-slate-600 hover:text-rose-600 bg-white hover:bg-rose-50 border border-slate-200 rounded-lg transition-colors cursor-pointer"
+              title={`Log out ${user.displayName}`}
+            >
+              <LogOut className="w-3.5 h-3.5" />
+            </button>
           </div>
         </header>
 
@@ -333,7 +427,7 @@ export default function App() {
             <span>·</span>
             <span>Mode: <strong className="text-sky-600">{previewMode === 'a5-single' ? 'Single A5' : 'Dual on A4'}</strong></span>
             <span>·</span>
-            <span>User: <strong className="text-slate-900">{institute.currentUserName || 'Not set'}</strong></span>
+            <span>User: <strong className="text-slate-900">{user.displayName}</strong></span>
             <span>·</span>
             <span>Authorized Admin: <strong className="text-slate-900">{institute.adminName || 'Not set'}</strong></span>
           </div>
@@ -471,7 +565,7 @@ export default function App() {
                   <strong>Dual 2-in-1 on A4:</strong> Switch to "Dual on A4" above to print 2 copies (Student + Office) on one regular A4 sheet and cut along the dashed line.
                 </li>
                 <li>
-                  <strong>Verification QR:</strong> The QR code at the bottom encodes the student record, receipt number, and direct link to <span className="text-sky-600 font-mono">www.smartlabs.lk</span>.
+                  <strong>Verification QR:</strong> Students scan the QR code on the slip to check that the receipt is valid in the SmartLabs records.
                 </li>
               </ul>
             </div>
@@ -493,16 +587,12 @@ export default function App() {
         onRefreshReceipts={() => setReceipts(getReceipts())}
       />
 
-      {!sessionReady && (
-        <SessionSetupModal
-          institute={institute}
-          onContinue={updated => {
-            handleSaveSettings(updated);
-            setReceipt(r => ({ ...r, cashierName: updated.currentUserName || r.cashierName }));
-            setSessionReady(true);
-          }}
-        />
-      )}
+      <AdminPanel
+        isOpen={isAdminOpen}
+        onClose={() => setIsAdminOpen(false)}
+        user={user}
+        receipts={receipts}
+      />
 
       {/* Local Device Data Modal */}
       <DeviceStorageModal
