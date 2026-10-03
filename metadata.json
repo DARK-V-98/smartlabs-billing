@@ -1,0 +1,6 @@
+{
+  "name": "SmartLabs Receipt & Invoice Printer",
+  "description": "Official A5 receipt printer and billing generator for Smartlabs (Pvt) Ltd students with payment tracking and dual-print support.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
